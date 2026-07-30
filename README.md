@@ -154,6 +154,11 @@ them:
 Every point is one submission: the pipeline's score against the mean of that
 paper's real reviewer scores, coloured by the real accept/reject outcome.
 
+![Real accept/reject composition of each pipeline-score bin](figures/accept_rate_bars.png)
+
+The same runs binned by pipeline score, each column normalised: the share of
+papers in that bin that were really accepted and really rejected.
+
 The set is chosen automatically from the merger backend you are running
 (`claude_sdk:` maps to `claude.csv`, anything else to `deepseek.csv`), and the
 pipeline reports three things:
@@ -200,11 +205,12 @@ results/claude.csv                    reference run, Claude backend
 results/deepseek.csv                  reference run, OpenAI Agents SDK backend
 figures/pipeline.py                   source of the pipeline figure (+ .pdf / .png)
 figures/calibration_scatter.py        source of the scatter above (+ .pdf / .png)
+figures/accept_rate_bars.py           source of the stacked bars above (+ .pdf / .png)
 ```
 
-Both figure scripts write a PDF (for LaTeX) and a PNG (for this page) from the
-same source: `python figures/pipeline.py`, `python figures/calibration_scatter.py`.
-The pipeline script also warns if any label no longer fits its box.
+Each figure script writes a PDF (for LaTeX) and a PNG (for this page) from the
+same source; run them with `python figures/<name>.py`. The pipeline script also
+warns if any label no longer fits its box.
 
 ---
 
