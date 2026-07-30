@@ -13,6 +13,8 @@ separately, later.
 
 ## How it works
 
+![ARD-Review pipeline](figures/pipeline.png)
+
 The pipeline is two agent stages. Neither stage ever receives the paper inline;
 both read it from disk through a sandboxed `read_file` / `grep_file` tool pair,
 so a long paper is consumed and reasoned about incrementally instead of dumped
@@ -191,7 +193,13 @@ prompts/cal_without.md                its --no_cal replacement
 prompts/timeline.md                   current-date grounding for both stages
 results/claude.csv                    reference run, Claude backend
 results/deepseek.csv                  reference run, OpenAI Agents SDK backend
+figures/pipeline.py                   source of the figure above
+figures/pipeline.pdf                  vector version, for LaTeX
+figures/pipeline.png                  raster version, for this page
 ```
+
+Regenerate the figure with `python figures/pipeline.py`; it writes both the PDF
+and the PNG, and warns if any label no longer fits its box.
 
 ---
 
