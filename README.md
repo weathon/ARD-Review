@@ -188,6 +188,30 @@ review text, no dataset.
 
 ---
 
+## Comparison
+
+Review quality, judged head to head. Each of the 392 papers in the common set
+gives one match of this pipeline against one competing system; a blind judge
+(Claude Sonnet 4.6, scoring the six deficiency categories) reads the two reviews
+and picks the better one, with a single seeded coin flip per match deciding
+which review is shown first.
+
+| Compared against | Win rate | Wins / matches |
+| --- | --- | --- |
+| Direct single-pass review | 0.941 | 369 / 392 |
+| CSPaper | 0.522 | 204 / 391 |
+| DeepReviewer 14B, meta review | 0.987 | 387 / 392 |
+| DeepReviewer v2 | 0.753 | 295 / 392 |
+| **Overall** | **0.801** | **1255 / 1567** |
+
+Only this pipeline is compared against the others: there are no
+opponent-versus-opponent matches and no full grid. Human reviews are excluded
+from the comparison, because they were written against an earlier revision of
+each paper than the final text the judge reads. One CSPaper match was dropped
+because that system's review for the paper is missing its outcome section.
+
+---
+
 ## Layout
 
 ```
