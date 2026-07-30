@@ -149,6 +149,11 @@ them:
 | `results/claude.csv` | Claude Sonnet 4.6, Claude Agent SDK | 393 |
 | `results/deepseek.csv` | DeepSeek V4 Flash over OpenRouter, OpenAI Agents SDK | 388 |
 
+![Pipeline score against the mean real reviewer score, per reference run](figures/calibration_scatter.png)
+
+Every point is one submission: the pipeline's score against the mean of that
+paper's real reviewer scores, coloured by the real accept/reject outcome.
+
 The set is chosen automatically from the merger backend you are running
 (`claude_sdk:` maps to `claude.csv`, anything else to `deepseek.csv`), and the
 pipeline reports three things:
@@ -193,13 +198,13 @@ prompts/cal_without.md                its --no_cal replacement
 prompts/timeline.md                   current-date grounding for both stages
 results/claude.csv                    reference run, Claude backend
 results/deepseek.csv                  reference run, OpenAI Agents SDK backend
-figures/pipeline.py                   source of the figure above
-figures/pipeline.pdf                  vector version, for LaTeX
-figures/pipeline.png                  raster version, for this page
+figures/pipeline.py                   source of the pipeline figure (+ .pdf / .png)
+figures/calibration_scatter.py        source of the scatter above (+ .pdf / .png)
 ```
 
-Regenerate the figure with `python figures/pipeline.py`; it writes both the PDF
-and the PNG, and warns if any label no longer fits its box.
+Both figure scripts write a PDF (for LaTeX) and a PNG (for this page) from the
+same source: `python figures/pipeline.py`, `python figures/calibration_scatter.py`.
+The pipeline script also warns if any label no longer fits its box.
 
 ---
 
