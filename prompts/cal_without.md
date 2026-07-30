@@ -1,0 +1,1 @@
+Assign a score based solely on your assessment of the paper's quality after review. 

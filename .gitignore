@@ -1,0 +1,7 @@
+.env
+__pycache__/
+*.pyc
+datasets/
+code/error.log
+results/pipeline.log
+results/reviews/

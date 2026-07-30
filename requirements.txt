@@ -1,0 +1,12 @@
+# Pinned to the versions the reference runs in results/ were produced with.
+openai-agents==0.18.1
+openai==2.45.0
+claude-agent-sdk==0.2.120
+pydantic==2.13.4
+python-dotenv==1.2.2
+rank-bm25==0.2.2
+numpy==2.3.5
+datalab-python-sdk==0.5.0
+# only needed by code/download_calibration_corpus.py
+datasets==5.0.0
+tqdm==4.68.4
