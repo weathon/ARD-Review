@@ -29,8 +29,8 @@ EDGE_GROUP = "#8A8A85"
 FILL_CORPUS = "#EBE4D6"
 EDGE_CORPUS = "#8C7A55"
 
-FIG_W, FIG_H = 7.0, 3.7
-X, Y = 14.0, 7.4  # data-space extent (2 data units per inch)
+FIG_W, FIG_H = 7.0, 3.5
+X, Y = 14.0, 7.0  # data-space extent (2 data units per inch)
 
 fig, ax = plt.subplots(figsize=(FIG_W, FIG_H))
 ax.set_xlim(0, X)
@@ -73,14 +73,13 @@ def center(b):
 
 
 # ── Row 1: main flow ─────────────────────────────────────────────────
-R_Y, R_H = 5.85, 1.15
+R_Y, R_H = 5.62, 1.15
 b_in = box(0.15, R_Y, 1.95, R_H, FILL_IO, LINE)
 b_s1 = box(2.75, R_Y, 3.75, R_H, FILL_STAGE1, EDGE_STAGE, lw=1.3)
 b_s2 = box(7.15, R_Y, 3.75, R_H, FILL_STAGE2, EDGE_STAGE, lw=1.3)
 b_out = box(11.55, R_Y, 2.30, R_H, FILL_IO, LINE)
 
-text(center(b_in), R_Y + 0.72, "Paper", size=9.0, weight="bold", inside=b_in)
-text(center(b_in), R_Y + 0.38, "PDF / MD / text", size=6.4, color=GLOSS, inside=b_in)
+text(center(b_in), R_Y + R_H / 2, "Paper", size=9.0, weight="bold", inside=b_in)
 
 text(center(b_s1), R_Y + 0.74, "Stage 1   Harsh Critic", size=9.0, weight="bold", inside=b_s1)
 text(center(b_s1), R_Y + 0.38, "critical review of the paper", size=6.7, color="#33455C", inside=b_s1)
@@ -89,16 +88,12 @@ text(center(b_s2), R_Y + 0.74, "Stage 2   Merger", size=9.0, weight="bold", insi
 text(center(b_s2), R_Y + 0.38, "verify, anchor, calibrate", size=6.7, color="#26384C", inside=b_s2)
 
 text(center(b_out), R_Y + 0.72, "Final review", size=9.0, weight="bold", inside=b_out)
-text(center(b_out), R_Y + 0.38, "<score>  <decision>", size=6.4, color=GLOSS, inside=b_out)
+text(center(b_out), R_Y + 0.38, "score and decision", size=6.4, color=GLOSS, inside=b_out)
 
 MID = R_Y + R_H / 2
 arrow(b_in[0] + b_in[2], MID, b_s1[0], MID)
 arrow(b_s1[0] + b_s1[2], MID, b_s2[0], MID)
 arrow(b_s2[0] + b_s2[2], MID, b_out[0], MID)
-
-text(X / 2, 7.18,
-     "both stages run on the OpenAI Agents SDK or the Claude Agent SDK — same prompts, same tools",
-     size=7.0, style="italic", color=GLOSS)
 
 # ── Row 2: the merger, expanded ──────────────────────────────────────
 G_X, G_Y, G_W, G_H = 2.20, 2.60, 9.60, 2.55
@@ -142,7 +137,7 @@ text(center(c), C_Y + 0.38, "vector retrieval, filtered to a band of real review
 arrow(center(s_b), C_Y + C_H, center(s_b), G_Y, style="<|-|>", lw=1.0)
 arrow(center(s_c), C_Y + C_H, center(s_c), G_Y, style="<|-|>", lw=1.0)
 text((center(s_b) + center(s_c)) / 2, (C_Y + C_H + G_Y) / 2,
-     "calibration_search\nup to 3 batched rounds", size=6.5, style="italic", color=GLOSS)
+     "up to 3 retrieval rounds", size=6.5, style="italic", color=GLOSS)
 
 # ── Fit check ────────────────────────────────────────────────────────
 fig.canvas.draw()
