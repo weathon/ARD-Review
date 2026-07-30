@@ -23,13 +23,14 @@ FILL_IO = "#FFFFFF"
 FILL_STAGE1 = "#E4EBF3"
 FILL_STAGE2 = "#C5D4E2"
 EDGE_STAGE = "#2E4A66"
-FILL_TOOL = "#F6F5F2"
-EDGE_TOOL = "#8A8A85"
+FILL_SUB = "#EDF2F7"
+FILL_GROUP = "#F7F6F3"
+EDGE_GROUP = "#8A8A85"
 FILL_CORPUS = "#EBE4D6"
 EDGE_CORPUS = "#8C7A55"
 
-FIG_W, FIG_H = 7.0, 3.3
-X, Y = 14.0, 6.6  # data-space extent (2 data units per inch)
+FIG_W, FIG_H = 7.0, 3.7
+X, Y = 14.0, 7.4  # data-space extent (2 data units per inch)
 
 fig, ax = plt.subplots(figsize=(FIG_W, FIG_H))
 ax.set_xlim(0, X)
@@ -40,11 +41,11 @@ fig.subplots_adjust(left=0, right=1, bottom=0, top=1)
 _checks = []  # (text artist, (x, y, w, h) of the box it must stay inside, label)
 
 
-def box(x, y, w, h, fill, edge, lw=1.1, ls="solid"):
+def box(x, y, w, h, fill, edge, lw=1.1, ls="solid", z=2):
     ax.add_patch(FancyBboxPatch(
         (x, y), w, h,
         boxstyle="round,pad=0,rounding_size=0.13",
-        facecolor=fill, edgecolor=edge, linewidth=lw, linestyle=ls, zorder=2,
+        facecolor=fill, edgecolor=edge, linewidth=lw, linestyle=ls, zorder=z,
     ))
     return (x, y, w, h)
 
@@ -58,84 +59,90 @@ def arrow(x1, y1, x2, y2, style="-|>", lw=1.15, ls="solid"):
     ))
 
 
-def text(x, y, s, size=6.6, weight="normal", style="normal", color=INK,
+def text(x, y, s, size=6.5, weight="normal", style="normal", color=INK,
          ha="center", inside=None):
     t = ax.text(x, y, s, fontsize=size, fontweight=weight, fontstyle=style,
-                color=color, ha=ha, va="center", zorder=4, linespacing=1.5)
+                color=color, ha=ha, va="center", zorder=5, linespacing=1.5)
     if inside is not None:
         _checks.append((t, inside, s.replace("\n", " / ")))
     return t
-
-
-# ── Main row ─────────────────────────────────────────────────────────
-ROW_Y, ROW_H = 4.80, 1.28
-b_in = box(0.15, ROW_Y, 1.95, ROW_H, FILL_IO, LINE)
-b_s1 = box(2.75, ROW_Y, 3.75, ROW_H, FILL_STAGE1, EDGE_STAGE, lw=1.3)
-b_s2 = box(7.15, ROW_Y, 3.75, ROW_H, FILL_STAGE2, EDGE_STAGE, lw=1.3)
-b_out = box(11.55, ROW_Y, 2.30, ROW_H, FILL_IO, LINE)
 
 
 def center(b):
     return b[0] + b[2] / 2
 
 
-text(center(b_in), ROW_Y + 0.80, "Paper", size=9.0, weight="bold", inside=b_in)
-text(center(b_in), ROW_Y + 0.42, "PDF / MD / text", size=6.5, color=GLOSS, inside=b_in)
+# ── Row 1: main flow ─────────────────────────────────────────────────
+R_Y, R_H = 5.85, 1.15
+b_in = box(0.15, R_Y, 1.95, R_H, FILL_IO, LINE)
+b_s1 = box(2.75, R_Y, 3.75, R_H, FILL_STAGE1, EDGE_STAGE, lw=1.3)
+b_s2 = box(7.15, R_Y, 3.75, R_H, FILL_STAGE2, EDGE_STAGE, lw=1.3)
+b_out = box(11.55, R_Y, 2.30, R_H, FILL_IO, LINE)
 
-text(center(b_s1), ROW_Y + 0.84, "Stage 1   Harsh Critic", size=9.0, weight="bold", inside=b_s1)
-text(center(b_s1), ROW_Y + 0.44, "critical review of the paper", size=6.8, color="#33455C", inside=b_s1)
+text(center(b_in), R_Y + 0.72, "Paper", size=9.0, weight="bold", inside=b_in)
+text(center(b_in), R_Y + 0.38, "PDF / MD / text", size=6.4, color=GLOSS, inside=b_in)
 
-text(center(b_s2), ROW_Y + 0.84, "Stage 2   Merger", size=9.0, weight="bold", inside=b_s2)
-text(center(b_s2), ROW_Y + 0.44, "verify, then calibrate by comparison", size=6.8, color="#26384C", inside=b_s2)
+text(center(b_s1), R_Y + 0.74, "Stage 1   Harsh Critic", size=9.0, weight="bold", inside=b_s1)
+text(center(b_s1), R_Y + 0.38, "critical review of the paper", size=6.7, color="#33455C", inside=b_s1)
 
-text(center(b_out), ROW_Y + 0.80, "Final review", size=9.0, weight="bold", inside=b_out)
-text(center(b_out), ROW_Y + 0.42, "<score>  <decision>", size=6.5, color=GLOSS, inside=b_out)
+text(center(b_s2), R_Y + 0.74, "Stage 2   Merger", size=9.0, weight="bold", inside=b_s2)
+text(center(b_s2), R_Y + 0.38, "verify, anchor, calibrate", size=6.7, color="#26384C", inside=b_s2)
 
-MID_Y = ROW_Y + ROW_H / 2
-arrow(b_in[0] + b_in[2], MID_Y, b_s1[0], MID_Y)
-arrow(b_s1[0] + b_s1[2], MID_Y, b_s2[0], MID_Y)
-arrow(b_s2[0] + b_s2[2], MID_Y, b_out[0], MID_Y)
+text(center(b_out), R_Y + 0.72, "Final review", size=9.0, weight="bold", inside=b_out)
+text(center(b_out), R_Y + 0.38, "<score>  <decision>", size=6.4, color=GLOSS, inside=b_out)
 
-text(X / 2, 6.32,
+MID = R_Y + R_H / 2
+arrow(b_in[0] + b_in[2], MID, b_s1[0], MID)
+arrow(b_s1[0] + b_s1[2], MID, b_s2[0], MID)
+arrow(b_s2[0] + b_s2[2], MID, b_out[0], MID)
+
+text(X / 2, 7.18,
      "both stages run on the OpenAI Agents SDK or the Claude Agent SDK — same prompts, same tools",
      size=7.0, style="italic", color=GLOSS)
 
-# ── Tool panels under each stage ─────────────────────────────────────
-P_Y, P_H = 2.50, 1.85
-p1 = box(2.55, P_Y, 4.05, P_H, FILL_TOOL, EDGE_TOOL, lw=0.9, ls=(0, (3, 2)))
-p2 = box(6.95, P_Y, 4.35, P_H, FILL_TOOL, EDGE_TOOL, lw=0.9, ls=(0, (3, 2)))
+# ── Row 2: the merger, expanded ──────────────────────────────────────
+G_X, G_Y, G_W, G_H = 2.20, 2.60, 9.60, 2.55
+grp = box(G_X, G_Y, G_W, G_H, FILL_GROUP, EDGE_GROUP, lw=1.0, ls=(0, (4, 2.5)))
+text(center(grp), G_Y + G_H - 0.24, "Stage 2   Merger", size=8.0, weight="bold", inside=grp)
 
-text(center(p1), P_Y + 1.52, "read_file   ·   grep_file", size=7.6, weight="bold", inside=p1)
-text(center(p1), P_Y + 0.72,
-     "the paper never enters the\nprompt inline: read it in chunks,\nreason after each chunk before\nreading the next one",
-     size=6.5, color=GLOSS, inside=p1)
+SUB_Y, SUB_H, SUB_W, GAP = 2.75, 2.02, 2.66, 0.55
+s_a = box(2.45, SUB_Y, SUB_W, SUB_H, FILL_SUB, EDGE_STAGE, lw=1.0, z=3)
+s_b = box(2.45 + SUB_W + GAP, SUB_Y, SUB_W, SUB_H, FILL_SUB, EDGE_STAGE, lw=1.0, z=3)
+s_c = box(2.45 + 2 * (SUB_W + GAP), SUB_Y, SUB_W, SUB_H, FILL_SUB, EDGE_STAGE, lw=1.0, z=3)
 
-text(center(p2), P_Y + 1.55, "read_file   ·   draft_review", size=7.6, weight="bold", inside=p2)
-text(center(p2), P_Y + 1.24, "calibration_search", size=7.6, weight="bold", inside=p2)
-text(center(p2), P_Y + 0.80, "1   cross-check each weakness vs. paper", size=6.5, color=GLOSS, inside=p2)
-text(center(p2), P_Y + 0.52, "2   commit the draft before any anchor", size=6.5, color=GLOSS, inside=p2)
-text(center(p2), P_Y + 0.24, "3   bracket the score band, then narrow", size=6.5, color=GLOSS, inside=p2)
+text(center(s_a), SUB_Y + 1.66, "2a   Filter", size=8.2, weight="bold", inside=s_a)
+text(center(s_a), SUB_Y + 0.78,
+     "check every weakness\nagainst the paper, drop\nthe ones that do not\nhold, commit the draft",
+     size=6.4, color=GLOSS, inside=s_a)
 
-arrow(center(p1), P_Y + P_H, center(p1), ROW_Y, style="<|-|>", lw=1.0)
-arrow(center(p2), P_Y + P_H, center(p2), ROW_Y, style="<|-|>", lw=1.0)
+text(center(s_b), SUB_Y + 1.66, "2b   Anchor", size=8.2, weight="bold", inside=s_b)
+text(center(s_b), SUB_Y + 0.78,
+     "retrieve reviewed papers\nfrom every score band\nand bracket the band\nthis paper belongs to",
+     size=6.4, color=GLOSS, inside=s_b)
 
-# The paper stays on disk; both stages reach it only through the file tools.
-arrow(center(b_in), ROW_Y, center(b_in), P_Y + P_H / 2, style="-", lw=0.9, ls=(0, (2, 2)))
-arrow(center(b_in), P_Y + P_H / 2, p1[0], P_Y + P_H / 2, style="-|>", lw=0.9, ls=(0, (2, 2)))
-text(center(b_in) + 0.10, P_Y + P_H / 2 + 0.26, "on disk", size=6.5, style="italic",
-     color=GLOSS, ha="left")
+text(center(s_c), SUB_Y + 1.66, "2c   Refine", size=8.2, weight="bold", inside=s_c)
+text(center(s_c), SUB_Y + 0.78,
+     "narrow inside that\nbracket, then set the\nscore and decision\nrelative to the anchors",
+     size=6.4, color=GLOSS, inside=s_c)
+
+arrow(s_a[0] + s_a[2], SUB_Y + SUB_H / 2, s_b[0], SUB_Y + SUB_H / 2)
+arrow(s_b[0] + s_b[2], SUB_Y + SUB_H / 2, s_c[0], SUB_Y + SUB_H / 2)
+
+# The group is the Merger box of row 1, opened up.
+arrow(center(b_s2), R_Y, center(b_s2), G_Y + G_H, style="-", lw=1.0, ls=(0, (3, 2.5)))
 
 # ── Calibration corpus ───────────────────────────────────────────────
-C_Y, C_H = 0.22, 1.22
-c = box(3.90, C_Y, 7.40, C_H, FILL_CORPUS, EDGE_CORPUS, lw=1.1)
-text(center(c), C_Y + 0.76, "Calibration corpus   ·   13k human-reviewed papers",
+C_X, C_Y, C_W, C_H = 4.30, 0.30, 7.20, 1.20
+c = box(C_X, C_Y, C_W, C_H, FILL_CORPUS, EDGE_CORPUS, lw=1.1)
+text(center(c), C_Y + 0.74, "Calibration corpus   ·   13k human-reviewed papers",
      size=7.8, weight="bold", inside=c)
 text(center(c), C_Y + 0.38, "vector retrieval, filtered to a band of real reviewer scores",
-     size=6.5, color=GLOSS, inside=c)
+     size=6.4, color=GLOSS, inside=c)
 
-arrow(center(p2), C_Y + C_H, center(p2), P_Y, style="<|-|>", lw=1.0)
-text(center(p2) - 0.14, (C_Y + C_H + P_Y) / 2, "up to 3 batched\nRAG rounds", size=6.5,
-     style="italic", color=GLOSS, ha="right")
+arrow(center(s_b), C_Y + C_H, center(s_b), G_Y, style="<|-|>", lw=1.0)
+arrow(center(s_c), C_Y + C_H, center(s_c), G_Y, style="<|-|>", lw=1.0)
+text((center(s_b) + center(s_c)) / 2, (C_Y + C_H + G_Y) / 2,
+     "calibration_search\nup to 3 batched rounds", size=6.5, style="italic", color=GLOSS)
 
 # ── Fit check ────────────────────────────────────────────────────────
 fig.canvas.draw()
