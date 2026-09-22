@@ -1,4 +1,5 @@
 # ARD-Review
+Paper: https://doi.org/10.13140/RG.2.2.34444.48005
 
 An agentic paper reviewer. Give it a paper (PDF, Markdown or plain text) and it
 produces a full peer review plus a numeric score that is calibrated against real
